@@ -13,6 +13,13 @@ export class GifsService {
   }
 
   buscarGifs (query: string){
-    this._historial.push(query);
+    
+    query = query.trim().toLowerCase();
+    
+    if(!this._historial.includes(query)){
+      this._historial.push(query);
+      this._historial = this._historial.splice(0, 10);
+    }
+
   }
 }
