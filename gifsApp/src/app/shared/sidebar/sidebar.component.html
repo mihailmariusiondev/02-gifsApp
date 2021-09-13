@@ -11,6 +11,7 @@
       href="#"
       class="list-group-item"
       *ngFor="let item of historial"
+      (click)="buscar(item)"
     >
       {{item | uppercase}}
     </a>
