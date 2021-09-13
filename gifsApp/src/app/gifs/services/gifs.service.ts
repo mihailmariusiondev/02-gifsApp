@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   // esto es para que esté disponible de forma global en toda la app
@@ -8,8 +8,10 @@ import { HttpClient } from '@angular/common/http';
 export class GifsService {
 
   private apiKey: string = 'ERRUFlHbghUkFTtTl1ipwfPh0Uir8625';
-
   private _historial: string[] = [];
+
+  // TODO cambiar any por su tipo correspondiente
+  public resultados: any[] = []
 
   get getHistorial() {
     return [...this._historial]
@@ -17,7 +19,7 @@ export class GifsService {
 
   constructor(private http: HttpClient) { }
 
-  async buscarGifs(query: string) {
+  buscarGifs(query: string) {
 
     query = query.trim().toLowerCase();
 
@@ -26,9 +28,10 @@ export class GifsService {
       this._historial = this._historial.splice(0, 10);
     }
 
-    this.http.get('https://api.giphy.com/v1/gifs/search?api_key=ERRUFlHbghUkFTtTl1ipwfPh0Uir8625&q=cheeseburgers&limit=10')
-      .subscribe((resp : any) => {
+    this.http.get(`https://api.giphy.com/v1/gifs/search?api_key=ERRUFlHbghUkFTtTl1ipwfPh0Uir8625&q=${query}&limit=10`)
+      .subscribe((resp: any) => {
         console.log(resp);
+        this.resultados = resp.data
       })
 
   }
